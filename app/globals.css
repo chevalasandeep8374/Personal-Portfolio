@@ -1,26 +1,340 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --font-display: var(--font-playfair), var(--font-cormorant), "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-onest: var(--font-onest), "Onest", sans-serif;
+  --font-inter: var(--font-inter), "Inter", sans-serif;
+  --font-sans: var(--font-onest), var(--font-inter), "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif: var(--font-pt-serif), "PT Serif", Georgia, serif;
+  --font-editorial: var(--font-playfair), "Playfair Display", Georgia, serif;
+  --font-classic: var(--font-cormorant), var(--font-playfair), Georgia, serif;
+
+  --color-orange: #F2572B;
+  --color-crimson: #990011;
+  --color-ivory: #FCF6F5;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.font-display {
+  font-family: var(--font-playfair), var(--font-cormorant), "Playfair Display", Georgia, "Times New Roman", serif;
 }
 
-@media (prefers-color-scheme: dark) {
+.font-editorial {
+  font-family: var(--font-playfair), "Playfair Display", Georgia, serif;
+}
+
+.font-onest {
+  font-family: var(--font-onest), "Onest", sans-serif;
+}
+
+.font-sans {
+  font-family: var(--font-onest), var(--font-inter), "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.font-inter {
+  font-family: var(--font-inter), "Inter", sans-serif;
+}
+
+.font-serif {
+  font-family: var(--font-pt-serif), "PT Serif", Georgia, serif;
+}
+
+.font-classic {
+  font-family: var(--font-cormorant), var(--font-playfair), Georgia, serif;
+}
+
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --orange: #F2572B;
+    --crimson: #990011;
+    --ivory: #FCF6F5;
+    --bg-primary: #ffffff;
+    --bg-card: #ffffff;
+    --border-subtle: rgba(0, 0, 0, 0.08);
+    --text-primary: #111111;
+    --text-muted: #4d4d4d;
+    --accent: #F2572B;
+    --accent-glow: rgba(242, 87, 43, 0.2);
+
+    /* Dark chapter palette */
+    --dark-bg:         #08090B;
+    --dark-surface:    #111419;
+    --dark-text:       #F5F7FA;
+    --dark-muted:      #A5ADB8;
+    --dark-accent:     #F2572B;
+    --dark-border:     rgba(255,255,255,0.08);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #ffffff;
+    color: #111111;
+    font-family: var(--font-playfair), var(--font-cormorant), "Playfair Display", Georgia, serif;
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  body {
+    overflow-x: hidden;
+    max-width: 100vw;
+    position: relative;
+  }
+
+  ::selection {
+    background: #F2572B;
+    color: #FCF6F5;
+  }
+
+  /* Fixed header scroll offset so headings aren't hidden underneath */
+  #home,
+  #about,
+  #capabilities,
+  #stack,
+  #work,
+  #experience,
+  #contact {
+    scroll-margin-top: 5.5rem;
+  }
+
+  body.project-modal-open header {
+    opacity: 0 !important;
+    pointer-events: none !important;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+header {
+  transition: opacity 0.2s ease;
+}
+
+/* 3D Flip Card Utilities */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-style-preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+.card-flip-container {
+  perspective: 1000px;
+}
+
+.card-flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+}
+
+.card-flip-container:hover .card-flip-inner,
+.card-flip-container.flipped .card-flip-inner {
+  transform: rotateY(180deg);
+}
+
+.card-flip-front,
+.card-flip-back {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+.card-flip-back {
+  transform: rotateY(180deg);
+}
+
+@keyframes marqueeContinuous {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee-infinite {
+  display: flex;
+  width: max-content;
+  animation: marqueeContinuous 65s linear infinite;
+  will-change: transform;
+}
+
+/* Subtle AI Dot Grid Pattern */
+.bg-ai-dots {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.bg-ai-grid {
+  background-size: 40px 40px;
+  background-image:
+    linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+}
+
+/* Subtle Shimmer for Pipeline flows */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.02);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+/* Spin animation for circular badge */
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spinSlow 20s linear infinite;
+}
+
+/* Marquee for Currently Exploring & Hero Header Ticker */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 35s linear infinite;
+}
+
+.animate-marquee-hero {
+  display: flex;
+  width: max-content;
+  animation: marquee 25s linear infinite;
+}
+
+.animate-marquee:hover,
+.animate-marquee-hero:hover {
+  animation-play-state: paused;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-marquee {
+    animation: none;
+    transform: none;
+  }
+}
+
+/* ── Scroll Reveal Utilities ──────────────────────────────────────────────── */
+
+/* Each reveal line wraps its text in a clip container */
+.reveal-line-clip {
+  overflow: hidden;
+  display: block;
+}
+
+/* ── Dark Chapter Section ─────────────────────────────────────────────────── */
+
+.dark-section {
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
+}
+
+.dark-section ::selection {
+  background: var(--dark-text);
+  color: var(--dark-bg);
+}
+
+/* Dark section card surfaces */
+.dark-card {
+  background-color: var(--dark-surface);
+  border-color: var(--dark-border);
+  color: var(--dark-text);
+}
+
+/* Clip-path transition helper for the cinematic reveal */
+.dark-reveal-layer {
+  clip-path: inset(100% 0 0 0);
+  will-change: clip-path;
+}
+
+/* ── Heavy Grain Movement Animations ───────────────────────────────────── */
+@keyframes heavyGrainJitter {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-1.5%, 1.5%); }
+  50% { transform: translate(1.5%, -1%); }
+  75% { transform: translate(-1%, -1.5%); }
+  100% { transform: translate(0, 0); }
+}
+
+.animate-grain-jitter {
+  animation: heavyGrainJitter 0.35s steps(4) infinite;
+}
+
+@keyframes waveSlowFloat {
+  0%, 100% { transform: scale(1) translateY(0); }
+  50% { transform: scale(1.03) translateY(-4px); }
+}
+
+.animate-wave-float {
+  animation: waveSlowFloat 14s ease-in-out infinite;
+}
+
+/* ── Tactile Card Grain Overlay ─────────────────────────────────────────── */
+.card-grain {
+  position: relative;
+}
+
+.card-grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background-image: url("/textures/grain.png");
+  background-repeat: repeat;
+  background-size: 128px 128px;
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+  z-index: 10;
+}
+
+/* ── Reduced motion adjustments ──────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .dark-reveal-layer {
+    clip-path: inset(0% 0 0 0) !important;
+  }
 }
